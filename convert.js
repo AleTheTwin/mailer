@@ -8,11 +8,11 @@ const styles = {
 	"items-center": "align-items: center;",
 	"bg-indigo-900": "background-color: #362f78;",
 	"text-slate-200": "color: #e2e8f0;",
-	"bg-orange-400": "background-color: rgb(255 138 76);",
+	"bg-orange-400": "background-color: #ff8b4c;",
 	flex: "display: flex;",
 	"flex-col": "flex-direction: column;",
 	"items-center": "align-items: center;",
-	"bg-white/5": "background-color: rgb(255 255 255 / 0.05);",
+	"bg-white/5": "background-color: #ffffff1c;",
 	"min-w-[50%]": "min-width: 50%;",
 	"col-span-3": "grid-column: span 3 / span 3;",
 	"h-20": "height: 5rem /* 80px */;",
@@ -25,17 +25,15 @@ const styles = {
 	"px-24": "padding-left: 6rem /* 96px */;padding-right: 6rem /* 96px */;",
 	"my-3": "margin-top: 0.75rem /* 12px */;margin-bottom: 0.75rem /* 12px */;",
 	"row-span-4": "grid-row: span 4 / span 4;",
-	"text-white":
-		"--tw-text-opacity: 1;color: rgb(255 255 255 / var(--tw-text-opacity));",
+	"text-white": "color: white;",
 	"bg-slate-100": "background-color: rgb(241, 245, 249);",
 	"grid-cols-5": "grid-template-columns: repeat(5, minmax(0, 1fr));",
 	"overflow-hidden": "overflow: hidden;",
-	"bg-white": "background-color: rgb(255 255 255);",
+	"bg-white": "background-color: rgb(255, 255, 255);",
 	"row-span-4": "grid-row: span 4 / span 4;",
 	"grid-rows-6": "grid-template-rows: repeat(6, minmax(0, 1fr));",
 	"gap-2": "gap: 0.5rem /* 8px */;",
-	"text-black":
-		"--tw-text-opacity: 1;color: rgb(0 0 0 / var(--tw-text-opacity));",
+	"text-black": "color: black;",
 	"col-span-3": "grid-column: span 3 / span 3;",
 	"px-3": "padding-left: 0.75rem /* 12px */;padding-right: 0.75rem /* 12px */;",
 	"py-3": "padding-top: 0.75rem /* 12px */;padding-bottom: 0.75rem /* 12px */;",
@@ -60,10 +58,10 @@ const styles = {
 	"rounded-full": "border-radius: 9999px;",
 	"h-10": "height: 2.5rem /* 40px */;",
 	"w-10": "width: 2.5rem /* 40px */;",
-	"bg-orange-400": "background-color: rgb(255 138 76);",
+
 	"max-h-full": "max-height: 100%;",
 	"py-2": "padding-top: 0.5rem /* 8px */;padding-bottom: 0.5rem /* 8px */;",
-	"bg-gray-900": "background-color: rgb(17 24 39);",
+	"bg-gray-900": "background-color: #111827;",
 	"col-span-3": "grid-column: span 3 / span 3;",
 	"grid-cols-4": "grid-template-columns: repeat(4, minmax(0, 1fr));",
 	"gap-2": "gap: 0.5rem /* 8px */;",
@@ -72,6 +70,14 @@ const styles = {
 	"min-w-[50%]": "min-width: 50%;",
 	underline: "text-decoration-line: underline;",
 	"h-12": "height: 3rem/* 48px */;",
+	"m-auto": "margin: auto;",
+	block: "display: block;",
+	"my-2": "margin-top: 0.5rem/* 8px */;margin-bottom: 0.5rem/* 8px */;",
+	"pb-4": "padding-bottom: 1rem/* 16px */;",
+	"!p-0": "padding: 0px !important;",
+	"m-0": "margin: 0px !important;",
+	"pt-3": "padding-top: 0.75rem/* 12px */;",
+	"w-[400px]": "width: 400px",
 };
 
 // Función que reemplaza el contenido de las clases según ciertas condiciones
@@ -81,12 +87,13 @@ function reemplazarContenidoClases(html) {
 		let estilos = [];
 		for (let i = 0; i < clases.length; i++) {
 			const clase = clases[i];
-			console.log("🚀 ~ ", clase);
+
 			if (styles[clase] !== undefined) {
 				estilos.push(styles[clase]);
+				// clases = clases.filter((item) => clase !== item);
 			}
 		}
-		return `style="${estilos.join(" ")}"`;
+		return `style="${estilos.join(" ")}" class="${classStr}"`;
 	});
 	return nuevoHTML;
 }

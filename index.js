@@ -1,6 +1,8 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
 const { procesarHTML } = require("./convert");
+const cors = require("cors");
+const fs = require("fs");
 
 require("dotenv").config();
 
@@ -10,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.text());
+app.use(cors());
 
 const config = {
 	email: process.env.GMAIL_USER,
@@ -32,17 +35,23 @@ try {
 
 	app.post("/send-email-test", async (req, res) => {
 		let body = req.body;
-		let { to } = req.query;
+
+		const { prevent_send, to } = req.query;
 
 		try {
+			const html = procesarHTML(body);
 			const mailOptions = {
 				from: config.email,
 				to,
 				subject: `Probando correos HTML - Prueba ${counter}`,
-				html: procesarHTML(body),
+				html: body,
 			};
 
-			await transporter.sendMail(mailOptions);
+			fs.writeFileSync("index.html", html);
+
+			if (!prevent_send) {
+				await transporter.sendMail(mailOptions);
+			}
 
 			res.status(200).json({
 				message: "Correo enviado exitosamente.",
