@@ -1,17 +1,16 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
-const { procesarHTML } = require("./convert");
 const cors = require("cors");
-const fs = require("fs");
-
+const { procesarHTML } = require("./procesar");
 require("dotenv").config();
+const fs = require("fs/promises");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.text());
+
 app.use(cors());
 
 const config = {
@@ -36,26 +35,28 @@ try {
 	app.post("/send-email-test", async (req, res) => {
 		let body = req.body;
 
-		const { prevent_send, to } = req.query;
+		const { prevent_send, to, procesar } = req.query;
 
 		try {
-			const html = procesarHTML(body);
+			let html = body;
+			if (procesar) {
+				html = procesarHTML(body.data);
+			}
 			const mailOptions = {
 				from: config.email,
 				to,
-				subject: `Probando correos HTML - Prueba ${counter}`,
-				html: body,
+				subject: `(${Date.now()}) | Probando correos HTML - Prueba ${counter}`,
+				text: "Correo de prueba de plantilla.",
+				html: html,
 			};
 
-			fs.writeFileSync("index.html", html);
-
+			await fs.writeFile("index.html", html);
 			if (!prevent_send) {
 				await transporter.sendMail(mailOptions);
 			}
 
 			res.status(200).json({
 				message: "Correo enviado exitosamente.",
-				mailOptions,
 			});
 		} catch (error) {
 			console.error("Error al enviar el correo:", error);
