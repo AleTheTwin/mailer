@@ -38,8 +38,8 @@ const imagen = (content = "", clases, component) => {
 };
 
 const button = (content = "", clases, component, accentColor) => {
-	const buttonWidth = 34;
-	const sidesWidth = 33;
+	const buttonWidth = 200;
+	const sidesWidth = 200;
 	return `
 		<tr><td style="height: 5px"></td></tr>
 		<tr>
@@ -47,15 +47,15 @@ const button = (content = "", clases, component, accentColor) => {
 				<table style="width: 100%">
 					<tbody>
 						<tr>
-							<td style="width: ${sidesWidth}%"></td>
-							<td style="width: ${buttonWidth}%">
+							<td style="width: ${sidesWidth}px"></td>
+							<td style="width: ${buttonWidth}px">
 								<a href="${component.link}" style="text-decoration: none; color: white;">
 									<div style="background: ${accentColor}; 
 										border-radius: 20px;
 										padding: 20px; text-align: center;color: white;" >${content}</div>
 								</a>
 							</td>
-							<td style="width: ${sidesWidth}%"></td>
+							<td style="width: ${sidesWidth}px"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -65,23 +65,23 @@ const button = (content = "", clases, component, accentColor) => {
 };
 
 const table = (content = []) => {
-	const tableWidth = 80;
-	const sidesWidth = 10;
+	const tableWidth = 480;
+	const sidesWidth = 60;
 	return `
 		<tr>
 			<td>
 				<table style="width: 100%">
 					<tbody>
 						<tr>
-							<td style="width: ${sidesWidth}%"></td>
-							<td style="width: ${tableWidth}%">
+							<td style="width: ${sidesWidth}px"></td>
+							<td style="width: ${tableWidth}px">
 								<table style="width: 100%;">
 									<tbody>
 										${content.map(getRow).join("")}
 									</tbody>
 								</table>
 							</td>
-							<td style="width: ${sidesWidth}%"></td>
+							<td style="width: ${sidesWidth}px"></td>
 						</tr>
 					</tbody>
 				</table>

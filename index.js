@@ -1,9 +1,8 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
-const { crearHTML } = require("./procesar");
+
 require("dotenv").config();
-const fs = require("fs/promises");
 
 const app = express();
 const PORT = process.env.PORT || 2050;
@@ -14,19 +13,25 @@ app.use(express.json());
 app.use(cors());
 
 const config = {
-	email: process.env.GMAIL_USER,
-	password: process.env.GMAIL_PASS,
+	email: process.env.EMAIL_USER,
+	password: process.env.EMAIL_PASS,
+	host: process.env.EMAIL_SERVER,
+	port: Number(process.env.EMAIL_PORT),
 };
 
 let counter = 1;
+
+const transporterConfig = {
+	host: config.host,
+	port: config.port,
+	secure: false,
+	auth: {
+		user: config.email,
+		pass: config.password,
+	},
+};
 try {
-	const transporter = nodemailer.createTransport({
-		service: "Gmail",
-		auth: {
-			user: config.email,
-			pass: config.password,
-		},
-	});
+	const transporter = nodemailer.createTransport(transporterConfig);
 
 	app.listen(PORT, () => {
 		console.log(`Servidor en funcionamiento en el puerto ${PORT}`);
