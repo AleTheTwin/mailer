@@ -37,6 +37,7 @@ type EmailTitle = {
 type EmailParagraph = {
 	type: "paragraph";
 	text: string;
+	color: string;
 };
 
 type EmailDivider = {
@@ -185,13 +186,11 @@ const exampleConfig: EmailConfig = {
 		image: "https://mpvuwb.stripocdn.email/content/guids/CABINET_236f9896be25e5243d42810f8b6f2b9d14dd90d336f571f8c84c2c213b89686a/images/1233444.png",
 	},
 	body: {
-		background: "#FFFFFF",
-		backgroundImage:
-			"https://i.pinimg.com/564x/7d/50/3f/7d503ff15c37416ccef167bfecb3baf2.jpg",
+		background: "#065e8e",
 		content: [
 			{
 				type: "title",
-				color: "#065e8e",
+				color: "#FFFFFF",
 				text: "Esto es u título de prueba",
 			},
 			{
@@ -205,6 +204,7 @@ const exampleConfig: EmailConfig = {
 			},
 			{
 				type: "paragraph",
+				color: "#FFFFFF",
 				text: "Mensaje de prueba en un párrafo medianamente largo para probar el comportamiento.",
 			},
 		],
