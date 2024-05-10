@@ -186,6 +186,8 @@ const exampleConfig: EmailConfig = {
 	},
 	body: {
 		background: "#FFFFFF",
+		backgroundImage:
+			"https://i.pinimg.com/564x/7d/50/3f/7d503ff15c37416ccef167bfecb3baf2.jpg",
 		content: [
 			{
 				type: "title",
