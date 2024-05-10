@@ -1,8 +1,11 @@
-const express = require("express");
-const nodemailer = require("nodemailer");
-const cors = require("cors");
+import cors from "cors";
+import express, { Request, Response } from "express";
+import nodemailer from "nodemailer";
+import EmailGenerator from "./EmailGenerator";
+import fs from "fs";
+import dotenv from "dotenv";
 
-require("dotenv").config();
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 2050;
@@ -19,8 +22,6 @@ const config = {
 	port: Number(process.env.EMAIL_PORT),
 };
 
-let counter = 1;
-
 const transporterConfig = {
 	host: config.host,
 	port: config.port,
@@ -30,19 +31,25 @@ const transporterConfig = {
 		pass: config.password,
 	},
 };
+
 try {
 	const transporter = nodemailer.createTransport(transporterConfig);
-
 	app.listen(PORT, () => {
 		console.log(`Servidor en funcionamiento en el puerto ${PORT}`);
 	});
 
-	app.post("/send-email-test", async (req, res) => {
-		let { to, html, subject, from } = req.body;
-		let errores = [];
+	app.post("/send-email-test", async (req: Request, res: Response) => {
+		const { from, to, subject, emailConfig } = req.body;
 
-		for (let i = 0; i < to.length; i++) {
-			const destinatario = to[i];
+		const errores: any[] = [];
+
+		for (const destinatario of to) {
+			const html = EmailGenerator.generateEmail(emailConfig);
+			// fs.writeFile("result.html", html, (err) => {
+			// 	if (err) {
+			// 		console.log("No fue posible escribir el archivo");
+			// 	}
+			// });
 			try {
 				const mailOptions = {
 					from,
@@ -50,18 +57,15 @@ try {
 					subject,
 					html: html,
 				};
-
 				await transporter.sendMail(mailOptions);
 			} catch (error) {
 				errores.push({
 					destinatario,
 					error,
 				});
+				console.error(error);
 			}
 		}
-
-		counter++;
-
 		if (errores.length === 0) {
 			res.status(200).json({
 				message: "Correos enviados exitosamente.",
@@ -74,5 +78,5 @@ try {
 		});
 	});
 } catch (error) {
-	console.error("No se pudo crear el transportador", error);
+	console.error(error);
 }

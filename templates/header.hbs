@@ -1,0 +1,40 @@
+<tr>
+	<td 
+		style="
+			padding-top: 1rem;
+			padding-bottom: 1rem;
+			background-color: {{background}};
+			margin: 0;
+			padding-left: 15px;
+			padding-right: 15px;
+			padding-top: 20px;
+			padding-bottom: 20px;
+			{{#if backgroundImage}}
+			background-image: url({{backgroundImage}});
+			background-repeat: no-repeat;
+			background-position: center top;
+			{{/if}}
+		"
+		background="{{backgroundImage}}"
+		class="py-[1rem]">
+		<table style="width: 100%; max-width: 600px">
+			<tbody>
+				<tr>
+					<td style="width: 33%; max-width: 200px"></td>
+					<td style="width: 34%; max-width: 200px">
+						<a>
+							<img 
+								style="
+									width: 100%;
+									max-width: 200px;
+								" 
+								width="200" src="{{image}}"
+								alt="Header_image" />
+						</a>
+					</td>
+					<td style="width: 33%; max-width: 200px"></td>
+				</tr>
+			</tbody>
+		</table>
+	</td>
+</tr>
