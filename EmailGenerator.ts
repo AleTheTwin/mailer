@@ -20,6 +20,7 @@ type EmailBody = {
 };
 
 type EmailFooter = {
+	address: string;
 	background: string;
 	whatsAppLink: string;
 	facebookLink: string;
@@ -210,6 +211,8 @@ const exampleConfig: EmailConfig = {
 		],
 	},
 	footer: {
+		address:
+			"Goldsmith 40, Polanco, Polanco III Secc, Miguel Hidalgo, 11550 Ciudad de México, CDMX",
 		background: "#000000",
 		email: "alejandro.sanchez@kuantik.mx",
 		facebookLink: "https://www.facebook.com/kuantik.mx",
