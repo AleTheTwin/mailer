@@ -12,8 +12,9 @@ const PORT = process.env.PORT || 2050;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.text());
 
-app.use(cors());
+// app.use(cors());
 
 const config = {
 	email: process.env.EMAIL_USER,
@@ -38,6 +39,34 @@ try {
 		console.log(`Servidor en funcionamiento en el puerto ${PORT}`);
 	});
 
+	app.post("/html", async (req: Request, res: Response) => {
+		const { destinatario, from, subject } = req.query;
+
+		const html = req.body;
+
+		try {
+			const mailOptions = {
+				from: from || config.email,
+				to: destinatario,
+				subject,
+				html: html,
+			};
+			console.log({
+				from: from || config.email,
+				to: destinatario,
+				subject,
+				html: (html as string).slice(0, 20),
+			});
+			await transporter.sendMail(mailOptions as any);
+		} catch (error) {
+			console.error(error);
+			res.status(500).send("Algo falló");
+			return;
+		}
+
+		res.send("Correos enviados");
+	});
+
 	app.post("/send-email-test", async (req: Request, res: Response) => {
 		const { from, to, subject, emailConfig } = req.body;
 
@@ -45,11 +74,7 @@ try {
 
 		for (const destinatario of to) {
 			const html = EmailGenerator.generateEmail(emailConfig);
-			// fs.writeFile("result.html", html, (err) => {
-			// 	if (err) {
-			// 		console.log("No fue posible escribir el archivo");
-			// 	}
-			// });
+
 			try {
 				const mailOptions = {
 					from,
