@@ -1,9 +1,6 @@
-FROM node:18
+FROM alethetwin/mailer
 
 COPY . .
 
-RUN npm install
-
-EXPOSE 2050
 
 CMD [ "npm", "run", "start" ]
