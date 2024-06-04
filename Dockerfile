@@ -4,6 +4,6 @@ COPY . .
 
 RUN npm ci
 
-EXPOSE 2050
+EXPOSE 443
 
 CMD [ "npm", "run", "start" ]
