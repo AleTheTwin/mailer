@@ -56,7 +56,7 @@ try {
 				html: (html as string).slice(0, 20),
 			});
 			await transporter.sendMail(mailOptions as any);
-		} catch (error) {
+		} catch (error: any) {
 			console.error(error);
 			res.status(500).send(`Error: ${error.message}`);
 			return;
