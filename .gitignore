@@ -3,3 +3,4 @@ node_modules/
 index.html
 .vscode
 .DS_Store
+ssl/*

@@ -2,17 +2,24 @@ import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import nodemailer from "nodemailer";
 import EmailGenerator from "./EmailGenerator";
-
+import { createServer } from "https";
+import { readFileSync } from "fs";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 2050;
+const PORT = process.env.PORT || 443;
+
+const httpsServer = createServer(
+	{
+		cert: readFileSync("ssl/certificate.cer"),
+		key: readFileSync("ssl/private.key"),
+	},
+	app
+);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.text());
-
-// app.use(cors());
 
 const config = {
 	email: process.env.EMAIL_USER,
@@ -33,9 +40,15 @@ const transporterConfig = {
 
 try {
 	const transporter = nodemailer.createTransport(transporterConfig);
-	app.listen(PORT, () => {
+	// app.listen(PORT, () => {
+	// 	console.log(`Servidor en funcionamiento en el puerto ${PORT}`);
+	// });
+
+	httpsServer.listen(PORT, () => {
 		console.log(`Servidor en funcionamiento en el puerto ${PORT}`);
 	});
+
+	app.get("/", (req: Request, res: Response) => res.send("Ok"));
 
 	app.post("/html", async (req: Request, res: Response) => {
 		const { destinatario, from, subject } = req.query;
