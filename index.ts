@@ -58,7 +58,7 @@ try {
 			await transporter.sendMail(mailOptions as any);
 		} catch (error) {
 			console.error(error);
-			res.status(500).send("Algo falló");
+			res.status(500).send(`Error: ${error.message}`);
 			return;
 		}
 
