@@ -1,9 +1,7 @@
-import cors from "cors";
+import dotenv from "dotenv";
 import express, { Request, Response } from "express";
 import nodemailer from "nodemailer";
 import EmailGenerator from "./EmailGenerator";
-import fs from "fs";
-import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -66,6 +64,16 @@ try {
 
 		res.send("Correos enviados");
 	});
+
+	app.post(
+		"/email-generator/generate-html",
+		async (req: Request, res: Response) => {
+			const emailConfig = req.body;
+			const html = EmailGenerator.generateEmail(emailConfig);
+
+			res.send(html);
+		}
+	);
 
 	app.post("/send-email-test", async (req: Request, res: Response) => {
 		const { from, to, subject, emailConfig } = req.body;
